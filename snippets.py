@@ -6,11 +6,12 @@ import tkinter as tk
 from tkinter import filedialog as fd
 
 def QuickFile(
+        dir = os.getcwd(),
         folder = False,
         multi = False,
         ftypes = [], 
         AllFileTypes = True,
-        dir = os.getcwd()):
+        ):
         """
         docstring
         """
