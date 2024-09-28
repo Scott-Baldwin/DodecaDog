@@ -1,12 +1,13 @@
 from os.path import join, dirname, abspath
 import dearpygui.dearpygui as dpg
+import utils
 
 
 def font_manager():
 
     dpg.create_context()
 
-    font_reg = register_fonts(13)
+    font_reg = register_fonts(16)
     set_default()
 
     with dpg.window(label="Font Example", height=200, width=200):
@@ -31,21 +32,21 @@ def font_manager():
     dpg.destroy_context()
 
 
-def register_fonts(s):
+def register_fonts(size):
     # paths to font files
     fonts = [
         "OpenSans-Regular.ttf",
         "SourceSansPro-Regular.otf",
-        # "Montserrat-Light.otf",
-        # "Montserrat-Regular.otf",
-        # "Montserrat-Black.otf",
-        # "Quicksand-Regular.otf",
+        "Montserrat-Light.otf",
+        "Montserrat-Regular.otf",
+        "Montserrat-Black.otf",
+        "Quicksand-Regular.otf",
     ]
-    paths = [join(dirname(abspath(__file__)), "assets", "fonts", f) for f in fonts]
+    paths = [join(utils.AssetManager.font_folder, f) for f in fonts]
 
     # add fonts to registry
     with dpg.font_registry():
-        font_reg = [dpg.add_font(p, s) for p in paths]
+        font_reg = [dpg.add_font(p, size) for p in paths]
 
     return font_reg
 

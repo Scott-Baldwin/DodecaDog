@@ -3,7 +3,7 @@ import os.path
 import dearpygui.dearpygui as dpg
 import dearpygui.demo as demo
 
-import core, fonts, tk_tools
+import core, fonts, utils
 
 
 # %% main
@@ -82,7 +82,7 @@ def _callback_b(sender, app_data, user_data):
 # TODO: these might be able to combined into a single class
 def _file_browse_callback(sender, value, user_data):
     tag = user_data
-    path = tk_tools.file_browse()
+    path = utils.file_browse()
     if path not in ("", []):
         dpg.set_value(f"check_{tag}", True)
         dpg.set_value(f"tip_{tag}", path)
@@ -99,7 +99,7 @@ def _file_browse_group(tag):
 
 def _files_browse_callback(sender, value, user_data):
     tag = user_data
-    path = tk_tools.file_browse(multiple=True)
+    path = utils.file_browse(multiple=True)
     if path not in ("", []):
         dpg.set_value(f"check_{tag}", True)
         dpg.set_value(f"tip_{tag}", path)
@@ -116,7 +116,7 @@ def _files_browse_group(tag):
 
 def _folder_browse_callback(sender, value, user_data):
     tag = user_data
-    path = tk_tools.folder_browse()
+    path = utils.folder_browse()
     if path != "":
         dpg.set_value(f"check_{tag}", True)
         dpg.set_value(f"tip_{tag}", path)

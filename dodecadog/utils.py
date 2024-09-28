@@ -3,14 +3,19 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 
 
-def file_browse(multiple=False):
-    file_types = []
+class AssetManager:
     app_path = dirname(abspath(__file__))
-    icon_path = join(app_path, "assets", "icons", "file.ico")
+    app_icon = join(app_path, "assets", "icons", "dog.ico")
+    file_icon = join(app_path, "assets", "icons", "file.ico")
+    font_folder = join(app_path, "assets", "fonts")
+
+
+# basic tkinter windows
+def file_browse(multiple=False, file_types=[]):
     file_types.append(("All Files", "*"))
     root = tk.Tk()
     root.withdraw()
-    root.iconbitmap(icon_path)
+    root.iconbitmap(AssetManager.file_icon)
     if multiple:
         file_path = filedialog.askopenfilenames(
             parent=root,
@@ -28,14 +33,9 @@ def file_browse(multiple=False):
 
 
 def folder_browse():
-
-    app_path = dirname(abspath(__file__))
-    icon_path = join(app_path, "assets", "icons", "file.ico")
-
     root = tk.Tk()
     root.withdraw()
-    root.iconbitmap(icon_path)
-
+    root.iconbitmap(AssetManager.file_icon)
     folder_path = filedialog.askdirectory(
         parent=root,
         title="Select folder",
