@@ -1,6 +1,42 @@
 from os.path import dirname, abspath, join
 import tkinter as tk
 from tkinter import filedialog, messagebox
+from time import sleep
+import threading
+
+
+# 3rd party
+from win11toast import notify, update_progress
+
+
+class progress_notification:
+    is_running = False
+
+    def push(self):
+        if not self.is_running:
+            notify(
+                progress={
+                    "title": "Progress Notification",
+                    "status": "Testing...",
+                    "value": "0",
+                    "valueStringOverride": "0/5 items",
+                }
+            )
+            thread = threading.Thread(target=self.long_process)
+            thread.start()
+            print("started thread...")
+
+    def long_process(self):
+        if not self.is_running:
+            self.is_running = True
+
+            for i in range(1, 5 + 1):
+                sleep(1)
+                update_progress(
+                    {"value": i / 5, "valueStringOverride": f"{i}/15 videos"}
+                )
+            update_progress({"status": "Completed!"})
+            self.is_running = False
 
 
 class AssetManager:
@@ -57,5 +93,6 @@ def msg_box(msg="Good Dog!"):
 
 if __name__ == "__main__":
     # msg_box(str(file_browse(True)))
-    msg_box(folder_browse())
+    # msg_box(folder_browse())
     # msg_box()
+    pass

@@ -9,6 +9,7 @@ readme = "README.md"
 python = ">=3.11,<3.13"
 dearpygui = "^1.11.1"
 psutil = "^6.0.0"
+win11toast = "^0.35"
 
 [tool.poetry.group.dev]
 optional = true

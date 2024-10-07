@@ -39,6 +39,9 @@ def run():
 
 
 # %% layout
+note = utils.progress_notification()
+
+
 def _create_layout(app, name=core.NAME, version=core.VERSION):
     with dpg.window(tag="main"):
         dpg.add_text(f"{name} v{version}")
@@ -48,6 +51,7 @@ def _create_layout(app, name=core.NAME, version=core.VERSION):
         _folder_browse_group("folder_path")
 
         dpg.add_button(label="test", callback=_callback_check)
+        dpg.add_button(label="push", callback=note.push)
 
         dpg.add_slider_float(
             label="a",
