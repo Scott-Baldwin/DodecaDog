@@ -52,7 +52,7 @@ def print_system_info(p=print_log):
     p("=" * 40 + " CPU " + "=" * 40)
     p(f"Physical cores: {psutil.cpu_count(logical=False)}")
     p(f"Total cores: {psutil.cpu_count(logical=True)}")
-    p(f"Max Frequency: {psutil.cpu_freq().max/1000:.1f}Ghz")
+    p(f"Max Frequency: {psutil.cpu_freq().max / 1000:.1f}Ghz")
 
     p("=" * 40 + " RAM " + "=" * 40)
     p(f"Total: {get_bytes_size(psutil.virtual_memory().total)}")
