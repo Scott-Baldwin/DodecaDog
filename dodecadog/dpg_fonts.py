@@ -1,10 +1,9 @@
-from os.path import join, dirname, abspath
+import os
 import dearpygui.dearpygui as dpg
 import utils
 
 
 def font_manager():
-
     dpg.create_context()
 
     font_reg = register_fonts(16)
@@ -42,7 +41,7 @@ def register_fonts(size):
         "Montserrat-Black.otf",
         "Quicksand-Regular.otf",
     ]
-    paths = [join(utils.AssetManager.font_folder, f) for f in fonts]
+    paths = [os.path.join(utils.AssetManager.font_folder, f) for f in fonts]
 
     # add fonts to registry
     with dpg.font_registry():

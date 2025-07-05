@@ -3,7 +3,7 @@ import os.path
 import dearpygui.dearpygui as dpg
 import dearpygui.demo as demo
 
-import core, fonts, utils
+import core, dpg_fonts, utils
 
 
 # %% main
@@ -21,7 +21,7 @@ def run():
     )
 
     # add custom font
-    fonts.set_default(i=1, s=16)
+    dpg_fonts.set_default(i=1, s=16)
 
     # layout - does a lot of the heavy lifting
     _create_layout(app)
