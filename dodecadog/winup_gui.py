@@ -109,6 +109,7 @@ def create_scatter_plot_tab():
 # --- Main Application ---
 
 
+# @winup.component
 def App():
     """The main app uses a TabView to organize the chart demos."""
     return ui.TabView(
@@ -121,10 +122,14 @@ def App():
     )
 
 
-if __name__ == "__main__":
+def run():
     winup.run(
         main_component_path=f"{this_module_name}:App",
         title="Graphing Widgets Demo",
         width=800,
         height=600,
     )
+
+
+if __name__ == "__main__":
+    run()
