@@ -5,7 +5,7 @@ from pyinstaller_versionfile import create_versionfile
 sys.path.append("./dodecadog")
 from core import VERSION, NAME
 
-BUILD = ".1"
+BUILD = ".2"
 
 # %% build path for version info file output
 folder = os.path.dirname(os.path.abspath(__file__))
@@ -21,7 +21,7 @@ create_versionfile(
     file_description=NAME,
     product_name=NAME,
     # internal_name="Simple App",
-    legal_copyright="© Scott-Baldwin 2024. All rights reserved.",
+    legal_copyright="© Scott-Baldwin 2025. All rights reserved.",
     # original_filename="SimpleApp.exe",
 )
 print(f"version file created/updated: {filepath}")

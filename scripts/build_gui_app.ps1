@@ -1,21 +1,21 @@
 # # change directory two levels up to project folder
-# $scriptpath = $MyInvocation.MyCommand.Path
-# $dir1 = Split-Path $scriptpath   # parent folder
-# $dir2 = Split-Path $dir1         # up second level
-# Set-Location $dir2
+$scriptpath = $MyInvocation.MyCommand.Path
+$dir1 = Split-Path $scriptpath   # parent folder
+$dir2 = Split-Path $dir1         # up second level
+Set-Location $dir2
 
 # Activate the virtual environment
-$venvPath = ".\.venv"
+$venvPath = ".venv"
 & $venvPath\Scripts\activate.ps1
 
-& poetry install --with build --without dev
+& uv sync --no-dev --group build
 
 # update version info file
 $versionScript = ".\scripts\create_version_file.py"
 & $venvPath\Scripts\python.exe $versionScript
 
 # Run the pyinstaller command
-$launcherFile = ".\dodecadog\gui.py"
+$launcherFile = ".\dodecadog\main.py"
 $pyInstallerExecutable = "pyinstaller"
 $appName = "template_app"
 $versionFile = ".\scripts\app_version_info.txt"
