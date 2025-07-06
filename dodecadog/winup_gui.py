@@ -93,9 +93,16 @@ def create_pie_chart_tab():
 
 def create_scatter_plot_tab():
     """Creates the UI for the Scatter Plot demo tab."""
-    chart = ui.ScatterPlot(data=generate_scatter_data(), title="Sample Scatter Plot")
+    chart = ui.ScatterPlot(
+        data=generate_scatter_data(),
+        title="Sample Scatter Plot",
+    )
     return ui.Column(
-        props={"spacing": 10},
+        props={
+            "spacing": 10,
+            # "background-color": "$secondary-color",
+            # "color": "$secondary-text-color",
+        },
         children=[
             chart,
             ui.Button(
@@ -148,6 +155,7 @@ def run():
         width=800,
         height=600,
     )
+    style.themes.set_theme("dark")
 
 
 if __name__ == "__main__":
