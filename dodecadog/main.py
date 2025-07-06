@@ -1,9 +1,9 @@
-import dpg_gui
-# import winup_gui
+# import dpg_gui
+import winup_gui
 
 if __name__ == "__main__":
-    # winup_gui.run()
-    dpg_gui.run()
+    winup_gui.run()
+    # dpg_gui.run()
 
     ### this breaks
     # thread_1 = threading.Thread(target=winup_gui.run)

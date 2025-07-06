@@ -7,7 +7,7 @@ this_module_name = f"{os.path.basename(__file__).split('.')[0]}"
 
 # %% main
 import winup
-from winup import ui, state
+from winup import ui, style
 import random
 
 # --- Helper Functions for Data Generation ---
@@ -106,13 +106,23 @@ def create_scatter_plot_tab():
     )
 
 
+def toggle_theme():
+    # Access the theme manager via the 'themes' attribute on the style module
+    current_theme = style.themes.get_active_theme_name()
+    next_theme = "dark" if current_theme == "light" else "light"
+    style.themes.set_theme(next_theme)
+
+
 # --- Main Application ---
 
 
 # @winup.component
 def App():
     """The main app uses a TabView to organize the chart demos."""
-    return ui.TabView(
+
+    theme_toggle = ui.Button("Toggle Theme", on_click=toggle_theme)
+
+    tabs = ui.TabView(
         tabs={
             "Bar Chart": create_bar_chart_tab(),
             "Line Chart": create_line_chart_tab(),
@@ -120,6 +130,15 @@ def App():
             "Scatter Plot": create_scatter_plot_tab(),
         }
     )
+
+    layout = ui.Column(
+        props={"spacing": 10, "margin": "20px"},
+        children=[
+            theme_toggle,
+            tabs,
+        ],
+    )
+    return layout
 
 
 def run():
