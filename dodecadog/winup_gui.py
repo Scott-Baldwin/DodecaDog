@@ -9,7 +9,8 @@ this_module_name = f"{os.path.basename(__file__).split('.')[0]}"
 import winup
 from winup import ui, style
 import random
-
+import matplotlib.pyplot as plt
+import pandas as pd
 # --- Helper Functions for Data Generation ---
 
 
@@ -113,11 +114,29 @@ def create_scatter_plot_tab():
     )
 
 
+# extras
 def toggle_theme():
     # Access the theme manager via the 'themes' attribute on the style module
     current_theme = style.themes.get_active_theme_name()
     next_theme = "dark" if current_theme == "light" else "light"
     style.themes.set_theme(next_theme)
+
+
+def show_mpl_plot():
+    # get random data
+    data = generate_scatter_data()
+    # convert to dataframe
+    df = pd.DataFrame(data)
+
+    cluster_1 = pd.DataFrame(
+        df["Cluster 1"].to_list(), columns=["X", "Y"], index=df.index
+    )
+    cluster_2 = pd.DataFrame(
+        df["Cluster 2"].to_list(), columns=["X", "Y"], index=df.index
+    )
+    plt.scatter(x=cluster_1.X, y=cluster_1.Y)
+    plt.scatter(x=cluster_2.X, y=cluster_2.Y)
+    plt.show()
 
 
 # --- Main Application ---
@@ -127,7 +146,7 @@ def toggle_theme():
 def App():
     """The main app uses a TabView to organize the chart demos."""
 
-    theme_toggle = ui.Button("Toggle Theme", on_click=toggle_theme)
+    style.themes.set_theme("dark")
 
     tabs = ui.TabView(
         tabs={
@@ -141,8 +160,9 @@ def App():
     layout = ui.Column(
         props={"spacing": 10, "margin": "20px"},
         children=[
-            theme_toggle,
             tabs,
+            ui.Button("Toggle Theme", on_click=toggle_theme),
+            ui.Button("MPL Plot", on_click=show_mpl_plot),
         ],
     )
     return layout
@@ -155,7 +175,6 @@ def run():
         width=800,
         height=600,
     )
-    style.themes.set_theme("dark")
 
 
 if __name__ == "__main__":
