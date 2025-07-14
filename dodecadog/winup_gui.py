@@ -11,9 +11,10 @@ from winup import ui, style
 import random
 import matplotlib.pyplot as plt
 import pandas as pd
+import mplcyberpunk
+
+
 # --- Helper Functions for Data Generation ---
-
-
 def generate_bar_data():
     """Generates random data for the bar chart."""
     categories = ["Alpha", "Bravo", "Charlie", "Delta", "Echo"]
@@ -123,19 +124,35 @@ def toggle_theme():
 
 
 def show_mpl_plot():
-    # get random data
-    data = generate_scatter_data()
-    # convert to dataframe
-    df = pd.DataFrame(data)
+    plt.style.use("cyberpunk")
+    # mpl_style(dark=True)
 
-    cluster_1 = pd.DataFrame(
-        df["Cluster 1"].to_list(), columns=["X", "Y"], index=df.index
-    )
-    cluster_2 = pd.DataFrame(
-        df["Cluster 2"].to_list(), columns=["X", "Y"], index=df.index
-    )
-    plt.scatter(x=cluster_1.X, y=cluster_1.Y)
-    plt.scatter(x=cluster_2.X, y=cluster_2.Y)
+    ### scatter plot
+    # # get random data
+    # data = generate_scatter_data()
+    # # convert to dataframe
+    # df = pd.DataFrame(data)
+
+    # cluster_1 = pd.DataFrame(
+    #     df["Cluster 1"].to_list(), columns=["X", "Y"], index=df.index
+    # )
+    # cluster_2 = pd.DataFrame(
+    #     df["Cluster 2"].to_list(), columns=["X", "Y"], index=df.index
+    # )
+    # plt.scatter(x=cluster_1.X, y=cluster_1.Y)
+    # plt.scatter(x=cluster_2.X, y=cluster_2.Y)
+
+    # mplcyberpunk.make_scatter_glow()
+
+    ### line graph
+    plt.plot([1, 3, 9, 5, 2, 1, 1], marker="o")
+    plt.plot([4, 5, 5, 7, 9, 8, 6], marker="o")
+    plt.plot([8, 6, 7, 3], marker="o")
+    plt.plot([9, 8, 6, 4, 5], marker="o")
+
+    mplcyberpunk.make_lines_glow()
+    # mplcyberpunk.add_glow_effects()
+
     plt.show()
 
 
@@ -174,8 +191,17 @@ def run():
         title="Graphing Widgets Demo",
         width=800,
         height=600,
+        icon=os.path.join(
+            os.path.dirname(os.path.abspath(__file__)),
+            "assets",
+            "icons",
+            "dog.ico",
+        ),
+        dev=True,
     )
 
 
 if __name__ == "__main__":
     run()
+
+# %%
