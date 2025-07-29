@@ -1,16 +1,9 @@
-# %% prep
 import os
+import random
 
-this_module_name = f"{os.path.basename(__file__).split('.')[0]}"
-# use with This in winup.run(
-# ... main_component_path=f"{this_module_name}:App",
-
-# %% main
 import winup
 from winup import ui, style
-import random
 import matplotlib.pyplot as plt
-import pandas as pd
 import mplcyberpunk
 
 
@@ -100,11 +93,7 @@ def create_scatter_plot_tab():
         title="Sample Scatter Plot",
     )
     return ui.Column(
-        props={
-            "spacing": 10,
-            # "background-color": "$secondary-color",
-            # "color": "$secondary-text-color",
-        },
+        props={"spacing": 10},
         children=[
             chart,
             ui.Button(
@@ -125,33 +114,15 @@ def toggle_theme():
 
 def show_mpl_plot():
     plt.style.use("cyberpunk")
-    # mpl_style(dark=True)
 
-    ### scatter plot
-    # # get random data
-    # data = generate_scatter_data()
-    # # convert to dataframe
-    # df = pd.DataFrame(data)
-
-    # cluster_1 = pd.DataFrame(
-    #     df["Cluster 1"].to_list(), columns=["X", "Y"], index=df.index
-    # )
-    # cluster_2 = pd.DataFrame(
-    #     df["Cluster 2"].to_list(), columns=["X", "Y"], index=df.index
-    # )
-    # plt.scatter(x=cluster_1.X, y=cluster_1.Y)
-    # plt.scatter(x=cluster_2.X, y=cluster_2.Y)
-
-    # mplcyberpunk.make_scatter_glow()
-
-    ### line graph
+    # line graph
     plt.plot([1, 3, 9, 5, 2, 1, 1], marker="o")
     plt.plot([4, 5, 5, 7, 9, 8, 6], marker="o")
     plt.plot([8, 6, 7, 3], marker="o")
     plt.plot([9, 8, 6, 4, 5], marker="o")
 
+    # optional effect
     mplcyberpunk.make_lines_glow()
-    # mplcyberpunk.add_glow_effects()
 
     plt.show()
 
@@ -186,6 +157,7 @@ def App():
 
 
 def run():
+    this_module_name = f"{os.path.basename(__file__).split('.')[0]}"
     winup.run(
         main_component_path=f"{this_module_name}:App",
         title="Graphing Widgets Demo",
