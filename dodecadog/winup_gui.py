@@ -113,24 +113,36 @@ def toggle_theme():
 
 
 def show_mpl_plot():
-    plt.style.use("cyberpunk")
+    if plt.fignum_exists(1):
+        # bring plot to front
+        plt.show()
 
-    # line graph
-    plt.plot([1, 3, 9, 5, 2, 1, 1], marker="o")
-    plt.plot([4, 5, 5, 7, 9, 8, 6], marker="o")
-    plt.plot([8, 6, 7, 3], marker="o")
-    plt.plot([9, 8, 6, 4, 5], marker="o")
+    else:
+        print("Showing MPL figure")
 
-    # optional effect
-    mplcyberpunk.make_lines_glow()
+        plt.style.use("cyberpunk")
+        # plt.style.use("dark_background")
 
-    plt.show()
+        # line graph
+        plt.plot([1, 3, 9, 5, 2, 1, 1], marker="*", label="A")
+        plt.plot([4, 5, 5, 7, 9, 8, 6], marker="d", label="B")
+        plt.plot([8, 6, 7, 3], marker="x", label="C")
+        plt.plot([9, 8, 6, 4, 5], marker="^", label="D")
+
+        plt.legend()
+        plt.tight_layout()
+
+        # optional effect for cyberpunk theme
+        # needs to be after legend creation
+        # mplcyberpunk.make_lines_glow()
+
+        plt.show()
 
 
 # --- Main Application ---
 
 
-# @winup.component
+@winup.component
 def App():
     """The main app uses a TabView to organize the chart demos."""
 
@@ -160,7 +172,7 @@ def run():
     this_module_name = f"{os.path.basename(__file__).split('.')[0]}"
     winup.run(
         main_component_path=f"{this_module_name}:App",
-        title="Graphing Widgets Demo",
+        title="WinUp Graphing Widgets Demo",
         width=800,
         height=600,
         icon=os.path.join(
@@ -175,5 +187,3 @@ def run():
 
 if __name__ == "__main__":
     run()
-
-# %%
