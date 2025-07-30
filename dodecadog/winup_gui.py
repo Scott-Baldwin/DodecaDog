@@ -2,106 +2,11 @@ import os
 import random
 
 import winup
-from winup import ui, style
+from winup import ui, style, state
 import matplotlib.pyplot as plt
 import mplcyberpunk
 
-
-# --- Helper Functions for Data Generation ---
-def generate_bar_data():
-    """Generates random data for the bar chart."""
-    categories = ["Alpha", "Bravo", "Charlie", "Delta", "Echo"]
-    return {cat: random.randint(10, 100) for cat in categories}
-
-
-def generate_line_data():
-    """Generates random data for the line chart."""
-    return {
-        "Series 1": [(i, random.uniform(20, 40)) for i in range(10)],
-        "Series 2": [(i, random.uniform(50, 70)) for i in range(10)],
-    }
-
-
-def generate_pie_data():
-    """Generates random data for the pie chart."""
-    return {
-        "Product A": random.randint(5, 30),
-        "Product B": random.randint(10, 40),
-        "Product C": random.randint(20, 50),
-    }
-
-
-def generate_scatter_data():
-    """Generates random data for the scatter plot."""
-    return {
-        "Cluster 1": [(random.uniform(0, 5), random.uniform(0, 5)) for _ in range(20)],
-        "Cluster 2": [
-            (random.uniform(5, 10), random.uniform(5, 10)) for _ in range(20)
-        ],
-    }
-
-
-# --- Tab Creation Functions ---
-
-
-def create_bar_chart_tab():
-    """Creates the UI for the Bar Chart demo tab."""
-    chart = ui.BarChart(data=generate_bar_data(), title="Sample Bar Chart")
-    return ui.Column(
-        props={"spacing": 10},
-        children=[
-            chart,
-            ui.Button(
-                "Randomize Data", on_click=lambda: chart.set_data(generate_bar_data())
-            ),
-        ],
-    )
-
-
-def create_line_chart_tab():
-    """Creates the UI for the Line Chart demo tab."""
-    chart = ui.LineChart(data=generate_line_data(), title="Sample Line Chart")
-    return ui.Column(
-        props={"spacing": 10},
-        children=[
-            chart,
-            ui.Button(
-                "Randomize Data", on_click=lambda: chart.set_data(generate_line_data())
-            ),
-        ],
-    )
-
-
-def create_pie_chart_tab():
-    """Creates the UI for the Pie Chart demo tab."""
-    chart = ui.PieChart(data=generate_pie_data(), title="Sample Pie Chart")
-    return ui.Column(
-        props={"spacing": 10},
-        children=[
-            chart,
-            ui.Button(
-                "Randomize Data", on_click=lambda: chart.set_data(generate_pie_data())
-            ),
-        ],
-    )
-
-
-def create_scatter_plot_tab():
-    """Creates the UI for the Scatter Plot demo tab."""
-    chart = ui.ScatterPlot(
-        data=generate_scatter_data(),
-        title="Sample Scatter Plot",
-    )
-    return ui.Column(
-        props={"spacing": 10},
-        children=[
-            chart,
-            ui.Button(
-                "Randomize Data",
-                on_click=lambda: chart.set_data(generate_scatter_data()),
-            ),
-        ],
-    )
+import utils
 
 
 # extras
@@ -120,14 +25,15 @@ def show_mpl_plot():
     else:
         print("Showing MPL figure")
 
-        plt.style.use("cyberpunk")
-        # plt.style.use("dark_background")
-
         # line graph
-        plt.plot([1, 3, 9, 5, 2, 1, 1], marker="*", label="A")
-        plt.plot([4, 5, 5, 7, 9, 8, 6], marker="d", label="B")
-        plt.plot([8, 6, 7, 3], marker="x", label="C")
-        plt.plot([9, 8, 6, 4, 5], marker="^", label="D")
+        data = {
+            "Series 1": [(random.uniform(20, 40)) for _ in range(10)],
+            "Series 2": [(random.uniform(50, 70)) for _ in range(10)],
+            "Series 3": [(random.uniform(35, 10)) for _ in range(10)],
+        }
+
+        for k, v in data.items():
+            plt.plot(v, label=k)
 
         plt.legend()
         plt.tight_layout()
@@ -140,32 +46,90 @@ def show_mpl_plot():
 
 
 # --- Main Application ---
+# %%
 
 
 @winup.component
 def App():
     """The main app uses a TabView to organize the chart demos."""
 
-    style.themes.set_theme("dark")
+    matrix_theme = {
+        "primary-color": "#00FF41",
+        "primary-text-color": "#000000",
+        "background-color": "#0D0208",
+        "text-color": "#00FF41",
+        "border-color": "#008F11",
+        "hover-color": "#00A62A",
+        "secondary-color": "#1A1A1A",
+        "secondary-text-color": "#00FF41",
+        "disabled-color": "#333333",
+        "error-color": "#FF4136",
+    }
 
-    tabs = ui.TabView(
-        tabs={
-            "Bar Chart": create_bar_chart_tab(),
-            "Line Chart": create_line_chart_tab(),
-            "Pie Chart": create_pie_chart_tab(),
-            "Scatter Plot": create_scatter_plot_tab(),
-        }
-    )
+    sunset_theme = {
+        "primary-color": "#FF6B35",
+        "primary-text-color": "#FFFFFF",
+        "background-color": "#2C1810",
+        "text-color": "#FFE5D9",
+        "border-color": "#8B4513",
+        "hover-color": "#FF8C42",
+        "secondary-color": "#4A2E20",
+        "secondary-text-color": "#FFE5D9",
+        "disabled-color": "#5A3D31",
+        "error-color": "#FF4136",
+    }
+    custom_theme = {
+        "primary-color": "#0EE761",
+        "primary-text-color": "#0B0FF8",
+        "background-color": "#2C1810",
+        "text-color": "#F50606",
+        "border-color": "#FF00F2",
+        "hover-color": "#EEEA0D",
+        "secondary-color": "#000000",
+        "secondary-text-color": "#EC830A",
+        "disabled-color": "#A410E9",
+        "error-color": "#BFEE3D",
+    }
+
+    # Add the custom themes
+    style.themes.add_theme("matrix", matrix_theme)
+    style.themes.add_theme("sunset", sunset_theme)
+    style.themes.add_theme("custom", custom_theme)
+
+    # style.themes.set_theme("dark")
+    style.themes.set_theme("matrix")
+    # style.themes.set_theme("sunset")
+    # style.themes.set_theme("custom")
+
+    # plot styles
+    # plt.style.use("dark_background")
+    # plt.style.use("cyberpunk")
+
+    file = state.create("file", "")
+
+    def get_file():
+        f = utils.file_browse()
+        if f != "":
+            file.set(f)
+
+    def print_file():
+        print(file.get())
 
     layout = ui.Column(
         props={"spacing": 10, "margin": "20px"},
         children=[
-            tabs,
+            # tabs,
             ui.Button("Toggle Theme", on_click=toggle_theme),
+            ui.Button("Get File", on_click=get_file),
+            ui.Button("Print File", on_click=print_file),
             ui.Button("MPL Plot", on_click=show_mpl_plot),
         ],
     )
+
     return layout
+
+
+# %%
 
 
 def run():
@@ -173,8 +137,8 @@ def run():
     winup.run(
         main_component_path=f"{this_module_name}:App",
         title="WinUp Graphing Widgets Demo",
-        width=800,
-        height=600,
+        width=200,
+        height=100,
         icon=os.path.join(
             os.path.dirname(os.path.abspath(__file__)),
             "assets",
