@@ -110,7 +110,7 @@ def App():
 
 if __name__ == "__main__":
     winup.run(
-        main_component_path="snippets:App",
+        main_component_path="themes:App",
         title="Custom Theme Demo",
         width=600,
         height=500,
