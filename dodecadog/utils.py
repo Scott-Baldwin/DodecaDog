@@ -47,7 +47,7 @@ class AssetManager:
 
 
 # basic tkinter windows
-def file_browse(multiple=False, file_types=[]):
+def file_browse(multiple: bool = False, file_types: list = []) -> str | tuple:
     file_types.append(("All Files", "*"))
     root = tk.Tk()
     root.withdraw()
