@@ -4,7 +4,9 @@ import random
 import winup
 from winup import ui, style, state
 import matplotlib.pyplot as plt
-import mplcyberpunk
+
+# import mplcyberpunk
+import darkdetect
 
 import utils
 
@@ -82,18 +84,18 @@ def show_mpl_plot():
 
 # %%
 @winup.component
-def FileBrowseExample():
+def FileBrowseExample(file):
     def get_file():
         f = utils.file_browse()
         if f != "":
             file.set(f)
             btn.setToolTip(f)
 
-    file = state.create("file", "")
+    # file = state.create("file", "")
     label = ui.Label("Select a File")
     btn = ui.Button("...", on_click=get_file)
 
-    return ui.Row(children=[btn, label])
+    return ui.Row(props={"spacing": 10}, children=[btn, label])
 
 
 @winup.component
@@ -122,21 +124,25 @@ def App():
     # style.themes.add_theme("sunset", sunset_theme)
     # style.themes.add_theme("custom", custom_theme)
 
-    style.themes.set_theme("dark")
+    if darkdetect.isDark():
+        style.themes.set_theme("dark")
+        plt.style.use("dark_background")
+        # plt.style.use("cyberpunk")
+
     # style.themes.set_theme("matrix")
     # style.themes.set_theme("sunset")
     # style.themes.set_theme("custom")
 
     # plot styles
-    # plt.style.use("dark_background")
-    plt.style.use("cyberpunk")
+
+    file = state.create("file", "")
 
     layout = ui.Column(
         props={"spacing": 10, "margin": "20px"},
         children=[
             ui.Button("Toggle Theme", on_click=toggle_theme),
-            FileBrowseExample(),
-            FileBrowseExample(),
+            FileBrowseExample(file),
+            FileBrowseExample(file),
             ComboBoxExample(),
             ui.Button("MPL Plot", on_click=show_mpl_plot),
         ],
