@@ -1,150 +1,100 @@
+# %% imports
+# standard lib
 import os
 import random
 
+# 3rd party
 import winup
 from winup import ui, style, state
 import matplotlib.pyplot as plt
-
-# import mplcyberpunk
 import darkdetect
+import mplcyberpunk  # optional, used for custom plot theme
 
-import utils
-
-# %% themes
-matrix_theme = {
-    "primary-color": "#00FF41",
-    "primary-text-color": "#000000",
-    "background-color": "#0D0208",
-    "text-color": "#00FF41",
-    "border-color": "#008F11",
-    "hover-color": "#00A62A",
-    "secondary-color": "#1A1A1A",
-    "secondary-text-color": "#00FF41",
-    "disabled-color": "#333333",
-    "error-color": "#FF4136",
-}
-
-sunset_theme = {
-    "primary-color": "#FF6B35",
-    "primary-text-color": "#FFFFFF",
-    "background-color": "#2C1810",
-    "text-color": "#FFE5D9",
-    "border-color": "#8B4513",
-    "hover-color": "#FF8C42",
-    "secondary-color": "#4A2E20",
-    "secondary-text-color": "#FFE5D9",
-    "disabled-color": "#5A3D31",
-    "error-color": "#FF4136",
-}
-custom_theme = {
-    "primary-color": "#0EE761",
-    "primary-text-color": "#0B0FF8",
-    "background-color": "#2C1810",
-    "text-color": "#F50606",
-    "border-color": "#FF00F2",
-    "hover-color": "#EEEA0D",
-    "secondary-color": "#000000",
-    "secondary-text-color": "#EC830A",
-    "disabled-color": "#A410E9",
-    "error-color": "#BFEE3D",
-}
+# this repo
+import core, utils
 
 
 # %% helper functions
-def toggle_theme():
-    # Access the theme manager via the 'themes' attribute on the style module
-    current_theme = style.themes.get_active_theme_name()
-    next_theme = "dark" if current_theme == "light" else "light"
-    style.themes.set_theme(next_theme)
 
 
-def show_mpl_plot():
+def show_mpl_plot(theme):
+    plt.style.use(theme)
     if plt.fignum_exists(1):
         # bring plot to front
         plt.show()
 
     else:
-        print("Showing MPL figure")
-
-        # line graph
+        # print("Showing MPL figure")
         data = {
             "Series 1": [(random.uniform(20, 40)) for _ in range(10)],
             "Series 2": [(random.uniform(50, 70)) for _ in range(10)],
             "Series 3": [(random.uniform(35, 10)) for _ in range(10)],
         }
-
         for k, v in data.items():
             plt.plot(v, label=k)
 
         plt.legend()
         plt.tight_layout()
-
         plt.show()
 
 
-# %%
-@winup.component
-def FileBrowseExample(file):
+def add_file_browse():
     def get_file():
-        f = utils.file_browse()
-        if f != "":
-            file.set(f)
-            btn.setToolTip(f)
+        file = utils.file_browse()
+        if file != "":
+            btn.setToolTip(file)
 
-    # file = state.create("file", "")
     label = ui.Label("Select a File")
     btn = ui.Button("...", on_click=get_file)
 
     return ui.Row(props={"spacing": 10}, children=[btn, label])
 
 
-@winup.component
-def ComboBoxExample():
-    items = ["Option 1", "Option 2", "Option 3", "Another Choice"]
-
+def add_plot_controls(plot_theme_state):
     def on_selection_change(selected_text):
-        print(f"Selected: {selected_text}")
+        plot_theme_state.set(selected_text)
+
+    items = ["cyberpunk"]
+    [items.append(s) for s in plt.style.available]
+    combo = ui.ComboBox(items=items, on_change=on_selection_change)
 
     return ui.Column(
         children=[
-            ui.Label(text="Please select an option:"),
-            ui.ComboBox(items=items, on_change=on_selection_change),
+            ui.Label(text="Select plot theme:"),
+            combo,
+            ui.Button(
+                "MPL Plot", on_click=lambda: show_mpl_plot(plot_theme_state.get())
+            ),
         ]
     )
 
 
 # --- Main Application ---
 # %% main app
+
+# prep
+# needs to be called before GUI function
+note = utils.progress_notification()
+app = core.AppClass()
+
+
 @winup.component
-def App():
-    """The main app uses a TabView to organize the chart demos."""
-
-    # Add the custom themes
-    # style.themes.add_theme("matrix", matrix_theme)
-    # style.themes.add_theme("sunset", sunset_theme)
-    # style.themes.add_theme("custom", custom_theme)
-
+def GUI():
+    # detect system theme and set app theme to match
     if darkdetect.isDark():
         style.themes.set_theme("dark")
-        plt.style.use("dark_background")
-        # plt.style.use("cyberpunk")
 
-    # style.themes.set_theme("matrix")
-    # style.themes.set_theme("sunset")
-    # style.themes.set_theme("custom")
-
-    # plot styles
-
-    file = state.create("file", "")
+    plot_theme_state = state.create("plot_theme", "cyberpunk")
+    plot_controls = add_plot_controls(plot_theme_state)
+    plot_theme_state.bind_to(plot_controls, "text", lambda t: t)
 
     layout = ui.Column(
         props={"spacing": 10, "margin": "20px"},
         children=[
-            ui.Button("Toggle Theme", on_click=toggle_theme),
-            FileBrowseExample(file),
-            FileBrowseExample(file),
-            ComboBoxExample(),
-            ui.Button("MPL Plot", on_click=show_mpl_plot),
+            add_file_browse(),
+            plot_controls,
+            # ui.Button("MPL Plot", on_click=lambda: show_mpl_plot(plot_theme.get())),
+            ui.Button("Push Notification", on_click=note.push),
         ],
     )
 
@@ -154,22 +104,17 @@ def App():
 # %%
 
 
-def run():
+def main():
     this_module_name = f"{os.path.basename(__file__).split('.')[0]}"
     winup.run(
-        main_component_path=f"{this_module_name}:App",
-        title="WinUp Demo",
+        main_component_path=f"{this_module_name}:GUI",
+        title=core.NAME,
         width=200,
         height=100,
-        icon=os.path.join(
-            os.path.dirname(os.path.abspath(__file__)),
-            "assets",
-            "icons",
-            "dog.ico",
-        ),
+        icon=utils.AssetManager.app_icon,
         dev=True,
     )
 
 
 if __name__ == "__main__":
-    run()
+    main()
