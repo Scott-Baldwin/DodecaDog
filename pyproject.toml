@@ -8,7 +8,7 @@ dependencies = [
     "darkdetect>=0.8.0",
     "matplotlib>=3.10.3",
     "psutil>=7.0.0",
-    "winup>=2.4.9",
+    "winup>=2.5.2",
 ]
 
 [dependency-groups]

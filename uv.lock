@@ -227,7 +227,7 @@ requires-dist = [
     { name = "darkdetect", specifier = ">=0.8.0" },
     { name = "matplotlib", specifier = ">=3.10.3" },
     { name = "psutil", specifier = ">=7.0.0" },
-    { name = "winup", specifier = ">=2.4.9" },
+    { name = "winup", specifier = ">=2.5.2" },
 ]
 
 [package.metadata.requires-dev]
@@ -1208,7 +1208,7 @@ wheels = [
 
 [[package]]
 name = "winup"
-version = "2.4.9"
+version = "2.5.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "click" },
@@ -1218,7 +1218,7 @@ dependencies = [
     { name = "watchdog" },
     { name = "websockets" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/c4/e7/c071df8d4856759eeb363aad2bec53d16f1e375a9e42711cae9d3d217b7e/winup-2.4.9.tar.gz", hash = "sha256:48266f8231d45cddaa343ec7f2543cbb5e001c6fc9bd870bec63d68ae8520d01", size = 60402, upload-time = "2025-07-02T16:46:52.279Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/3c/01/7319092586c6eded5e5c01e4e5d87b96255a5e6e4d2ad3a170050ea83b24/winup-2.5.2.tar.gz", hash = "sha256:3f8895a38bebec5018f747b4425da9d66f34b31f051d62792d41bd76e4952a37", size = 75470, upload-time = "2025-07-21T08:26:02.413Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/53/9d/f37ef221f8a837d0cb010b44cb0221e5262360263bfbb419f51e54915644/winup-2.4.9-py3-none-any.whl", hash = "sha256:5801b09c5b6522a49e772b01c5383c5dc329733f95ac000acfb83caa73c315fb", size = 79415, upload-time = "2025-07-02T16:46:51.143Z" },
+    { url = "https://files.pythonhosted.org/packages/64/84/011f2dcecf671180e7946626a273663fa2b118c356a54962c67140d76009/winup-2.5.2-py3-none-any.whl", hash = "sha256:daa7a4900274e3a8df360d6dbed20247bd6927067dfcc9a3d4348de7b1273d95", size = 103884, upload-time = "2025-07-21T08:26:00.905Z" },
 ]
