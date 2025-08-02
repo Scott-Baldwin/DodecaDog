@@ -203,6 +203,7 @@ dependencies = [
     { name = "darkdetect" },
     { name = "matplotlib" },
     { name = "psutil" },
+    { name = "win11toast" },
     { name = "winup" },
 ]
 
@@ -219,7 +220,6 @@ dpg = [
     { name = "dearpygui" },
     { name = "pandas" },
     { name = "psutil" },
-    { name = "win11toast" },
 ]
 
 [package.metadata]
@@ -227,6 +227,7 @@ requires-dist = [
     { name = "darkdetect", specifier = ">=0.8.0" },
     { name = "matplotlib", specifier = ">=3.10.3" },
     { name = "psutil", specifier = ">=7.0.0" },
+    { name = "win11toast", specifier = ">=0.35" },
     { name = "winup", specifier = ">=2.5.2" },
 ]
 
@@ -243,7 +244,6 @@ dpg = [
     { name = "dearpygui", specifier = ">=2.0.0" },
     { name = "pandas", specifier = ">=2.3.1" },
     { name = "psutil", specifier = ">=7.0.0" },
-    { name = "win11toast", specifier = ">=0.35" },
 ]
 
 [[package]]
