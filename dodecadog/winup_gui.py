@@ -39,10 +39,17 @@ def show_mpl_plot(theme):
 
 
 def add_file_browse():
+    is_running = state.create("is_running", False)
+
     def get_file():
-        file = utils.file_browse()
-        if file != "":
-            btn.setToolTip(file)
+        if not is_running.get():
+            is_running.set(True)
+            file = utils.file_browse()
+            if file != "":
+                btn.setToolTip(file)
+            is_running.set(False)
+        else:
+            print("File window already open")
 
     label = ui.Label("Select a File")
     btn = ui.Button("...", on_click=get_file)
@@ -54,7 +61,7 @@ def add_plot_controls(plot_theme_state):
     def on_selection_change(selected_text):
         plot_theme_state.set(selected_text)
 
-    items = ["cyberpunk"]
+    items = ["cyberpunk", "default"]
     [items.append(s) for s in plt.style.available]
     combo = ui.ComboBox(items=items, on_change=on_selection_change)
 
@@ -66,6 +73,24 @@ def add_plot_controls(plot_theme_state):
                 "MPL Plot", on_click=lambda: show_mpl_plot(plot_theme_state.get())
             ),
         ]
+    )
+
+
+def add_text_area():
+    text = ui.Textarea(placeholder="Long text will be displayed here...")
+    text.setReadOnly(True)
+    return text
+
+
+def update_text_area(state):
+    state.set(
+        {
+            "A": 1,
+            "B": 2,
+            "C": 2,
+            "D": 2,
+            "E": 10,
+        }
     )
 
 
@@ -88,6 +113,14 @@ def GUI():
     plot_controls = add_plot_controls(plot_theme_state)
     plot_theme_state.bind_to(plot_controls, "text", lambda t: t)
 
+    text_area_state = state.create("text_area", {})
+    text = add_text_area()
+    text_area_state.bind_to(
+        text,
+        "text",
+        lambda d: "\n".join([f"{key}: {value}" for key, value in d.items()]),
+    )
+
     layout = ui.Column(
         props={"spacing": 10, "margin": "20px"},
         children=[
@@ -95,6 +128,10 @@ def GUI():
             plot_controls,
             # ui.Button("MPL Plot", on_click=lambda: show_mpl_plot(plot_theme.get())),
             ui.Button("Push Notification", on_click=note.push),
+            text,
+            ui.Button(
+                "Update Text", on_click=lambda: update_text_area(text_area_state)
+            ),
         ],
     )
 
