@@ -6,7 +6,10 @@
         "dodecadog",
         "fignum",
         "mplcyberpunk",
+        "mplstyle",
+        "noconfirm",
         "Octo",
+        "onefile",
         "winup"
     ],
     // python formatting & type checking

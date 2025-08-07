@@ -8,7 +8,7 @@ import winup
 from winup import ui, style, state
 import matplotlib.pyplot as plt
 import darkdetect
-import mplcyberpunk  # optional, used for custom plot theme
+# import mplcyberpunk  # optional, used for custom plot theme
 
 # this repo
 import core, utils
@@ -17,7 +17,8 @@ import core, utils
 # %% helper functions
 
 
-def show_mpl_plot(theme):
+def show_mpl_plot(selection):
+    theme = utils.AssetManager.mpl_style if selection == "custom" else selection
     plt.style.use(theme)
     if plt.fignum_exists(1):
         # bring plot to front
@@ -61,7 +62,7 @@ def add_plot_controls(plot_theme_state):
     def on_selection_change(selected_text):
         plot_theme_state.set(selected_text)
 
-    items = ["cyberpunk", "default"]
+    items = ["custom", "default"]
     [items.append(s) for s in plt.style.available]
     combo = ui.ComboBox(items=items, on_change=on_selection_change)
 
@@ -109,7 +110,7 @@ def GUI():
     if darkdetect.isDark():
         style.themes.set_theme("dark")
 
-    plot_theme_state = state.create("plot_theme", "cyberpunk")
+    plot_theme_state = state.create("plot_theme", "custom")
     plot_controls = add_plot_controls(plot_theme_state)
     plot_theme_state.bind_to(plot_controls, "text", lambda t: t)
 

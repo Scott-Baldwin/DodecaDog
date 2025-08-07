@@ -3,10 +3,15 @@ import tkinter as tk
 from tkinter import filedialog, messagebox
 from time import sleep
 import threading
+import sys, platform, logging
 
 
 # 3rd party
 from win11toast import notify, update_progress
+import psutil
+
+# custom
+from core import VERSION
 
 
 class progress_notification:
@@ -44,6 +49,7 @@ class AssetManager:
     app_icon = join(app_path, "assets", "icons", "dog.ico")
     file_icon = join(app_path, "assets", "icons", "file.ico")
     font_folder = join(app_path, "assets", "fonts")
+    mpl_style = join(app_path, "assets", "cyberpunk.mplstyle")
 
 
 # basic tkinter windows
@@ -89,6 +95,53 @@ def msg_box(msg="Good Dog!"):
     root.iconbitmap(icon_path)
     messagebox.showinfo(title=title, message=msg, parent=root)
     root.destroy()
+
+
+# %% custom logging function
+def print_log(msg, log=logging.info):
+    print(msg)
+    log(msg)
+
+
+# %% system info for logs
+def print_system_info(p=print_log):
+    p("=" * 40 + " SYS " + "=" * 40)
+    p(f"File/Script: {__file__}")
+    p(f"File version: {VERSION}")
+    py_version = sys.version.split()[0]
+    p(f"Python Version: {py_version}")
+    uname = platform.uname()
+    p(f"System: {uname.system}")
+    p(f"Node Name: {uname.node}")
+    p(f"Release: {uname.release}")
+    p(f"Version: {uname.version}")
+    p(f"Machine: {uname.machine}")
+    p(f"Processor: {uname.processor}")
+
+    p("=" * 40 + " CPU " + "=" * 40)
+    p(f"Physical cores: {psutil.cpu_count(logical=False)}")
+    p(f"Total cores: {psutil.cpu_count(logical=True)}")
+    p(f"Max Frequency: {psutil.cpu_freq().max / 1000:.1f}Ghz")
+
+    p("=" * 40 + " RAM " + "=" * 40)
+    p(f"Total: {get_bytes_size(psutil.virtual_memory().total)}")
+    p(f"Available: {get_bytes_size(psutil.virtual_memory().available)}")
+
+    p("=" * 40 + " END " + "=" * 40)
+
+
+def get_bytes_size(bytes, suffix="B"):
+    """
+    Scale bytes to its proper format
+    e.g:
+        1253656 => '1.20MB'
+        1253656678 => '1.17GB'
+    """
+    factor = 1024
+    for unit in ["", "K", "M", "G", "T", "P"]:
+        if bytes < factor:
+            return f"{bytes:.2f}{unit}{suffix}"
+        bytes /= factor
 
 
 if __name__ == "__main__":

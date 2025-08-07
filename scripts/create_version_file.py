@@ -1,11 +1,18 @@
+# /// script
+# dependencies = [
+#   "pyinstaller-versionfile>=3.0.1",
+# ]
+# ///
+
+
 # %% imports
 import os.path, sys
-from pyinstaller_versionfile import create_versionfile
+from pyinstaller_versionfile import create_versionfile  # pyright: ignore[reportMissingImports]
 
 sys.path.append("./dodecadog")
 from core import VERSION, NAME
 
-BUILD = ".2"
+BUILD = ".9"
 
 # %% build path for version info file output
 folder = os.path.dirname(os.path.abspath(__file__))

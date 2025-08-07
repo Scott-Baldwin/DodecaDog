@@ -17,16 +17,11 @@ fonttools==4.59.0
 kiwisolver==1.4.8
     # via matplotlib
 matplotlib==3.10.3
-    # via
-    #   dodecadog (pyproject.toml)
-    #   mplcyberpunk
-mplcyberpunk==0.7.6
     # via dodecadog (pyproject.toml)
 numpy==2.3.2
     # via
     #   contourpy
     #   matplotlib
-    #   mplcyberpunk
 packaging==25.0
     # via
     #   matplotlib
@@ -38,6 +33,8 @@ pillow==11.3.0
     # via matplotlib
 prompt-toolkit==3.0.51
     # via questionary
+psutil==7.0.0
+    # via dodecadog (pyproject.toml)
 pyinstaller==6.14.2
     # via winup
 pyinstaller-hooks-contrib==2025.8
@@ -75,5 +72,9 @@ wcwidth==0.2.13
     # via prompt-toolkit
 websockets==15.0.1
     # via winup
+win11toast==0.35
+    # via dodecadog (pyproject.toml)
+winsdk==1.0.0b10
+    # via win11toast
 winup==2.5.2
     # via dodecadog (pyproject.toml)
