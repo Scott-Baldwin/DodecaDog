@@ -12,6 +12,7 @@ from pyinstaller_versionfile import create_versionfile  # pyright: ignore[report
 sys.path.append("./dodecadog")
 from core import VERSION, NAME
 
+# TODO: auto-increment build number
 BUILD = ".9"
 
 # %% build path for version info file output
