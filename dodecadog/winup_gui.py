@@ -15,8 +15,6 @@ import core, utils
 
 
 # %% helper functions
-
-
 def show_mpl_plot(selection):
     theme = utils.AssetManager.mpl_style if selection == "custom" else selection
     plt.style.use(theme)
@@ -95,8 +93,33 @@ def update_text_area(state):
     )
 
 
+def get_image_coords():
+    # Create a sample image (a simple 2D array)
+    grid_size = 10
+    image = image = [
+        [random.random() for _ in range(grid_size)] for _ in range(grid_size)
+    ]
+
+    # Display the image
+    plt.imshow(image, cmap="terrain")
+    plt.title("Click on the image")
+
+    # Use ginput to get any number of points
+    print("Left-Click on the image to add a point")
+    print("Right-Click to undo the last point")
+    print("Middle-Click to finish")
+    coordinates = plt.ginput(n=-1, timeout=0)
+    plt.close()
+
+    # print output
+    [
+        print(f"Point {index}: ({value[0]:.2f}, {value[1]:.2f})")
+        for index, value in enumerate(coordinates)
+    ]
+
+
 # --- Main Application ---
-# %% main app
+# %%
 
 # prep
 # needs to be called before GUI function
@@ -105,11 +128,12 @@ app = core.AppClass()
 
 
 @winup.component
-def GUI():
+def run():
     # detect system theme and set app theme to match
     if darkdetect.isDark():
         style.themes.set_theme("dark")
 
+    # set up states
     plot_theme_state = state.create("plot_theme", "custom")
     plot_controls = add_plot_controls(plot_theme_state)
     plot_theme_state.bind_to(plot_controls, "text", lambda t: t)
@@ -127,12 +151,12 @@ def GUI():
         children=[
             add_file_browse(),
             plot_controls,
-            # ui.Button("MPL Plot", on_click=lambda: show_mpl_plot(plot_theme.get())),
             ui.Button("Push Notification", on_click=note.push),
             text,
             ui.Button(
                 "Update Text", on_click=lambda: update_text_area(text_area_state)
             ),
+            ui.Button("TEST", on_click=get_image_coords),
         ],
     )
 
@@ -145,7 +169,7 @@ def GUI():
 def main():
     this_module_name = f"{os.path.basename(__file__).split('.')[0]}"
     winup.run(
-        main_component_path=f"{this_module_name}:GUI",
+        main_component_path=f"{this_module_name}:run",
         title=core.NAME,
         width=200,
         height=100,
