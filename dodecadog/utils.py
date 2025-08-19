@@ -1,3 +1,4 @@
+# standard
 from os.path import dirname, abspath, join
 import tkinter as tk
 from tkinter import filedialog, messagebox
@@ -5,13 +6,25 @@ from time import sleep
 import threading
 import sys, platform, logging
 
-
 # 3rd party
 from win11toast import notify, update_progress
 import psutil
+import requests
+from PIL import Image
+from io import BytesIO
+import matplotlib.pyplot as plt
 
 # custom
 from core import VERSION
+
+
+# %% misc
+class AssetManager:
+    app_path = dirname(abspath(__file__))
+    app_icon = join(app_path, "assets", "icons", "dog.ico")
+    file_icon = join(app_path, "assets", "icons", "file.ico")
+    font_folder = join(app_path, "assets", "fonts")
+    mpl_style = join(app_path, "assets", "cyberpunk.mplstyle")
 
 
 class progress_notification:
@@ -44,15 +57,51 @@ class progress_notification:
             self.is_running = False
 
 
-class AssetManager:
-    app_path = dirname(abspath(__file__))
-    app_icon = join(app_path, "assets", "icons", "dog.ico")
-    file_icon = join(app_path, "assets", "icons", "file.ico")
-    font_folder = join(app_path, "assets", "fonts")
-    mpl_style = join(app_path, "assets", "cyberpunk.mplstyle")
+def get_image_coords():
+    # Replace this URL with the direct link to the image you want to download
+    # image_url = "https://imgs.xkcd.com/comics/curve_fitting.png"
+    image_url = "https://imgs.xkcd.com/comics/escalators.png"
+
+    try:
+        # Step 1: Download the image data from the URL
+        response = requests.get(image_url)
+        response.raise_for_status()  # This will raise an HTTPError for bad responses (4xx or 5xx)
+
+        # Step 2: Read the image data from the response content
+        image_data = BytesIO(response.content)
+
+        # Step 3: Open the image using Pillow (PIL)
+        image = Image.open(image_data)
+
+        # image = plt.imread(image_url)
+
+        # Step 4: Display the image
+        # This will open a new window showing the image
+        print("Displaying the image...")
+        plt.imshow(image)
+        title = "Left-Click on the image to add a point\nRight-Click to undo the last point\nMiddle-Click to finish"
+        plt.title(title)
+        # print(title)
+        plt.tight_layout()
+
+        coordinates = plt.ginput(n=-1, timeout=0)
+        plt.close()
+
+        # print output
+        [
+            print(f"Point {index}: ({value[0]:.2f}, {value[1]:.2f})")
+            for index, value in enumerate(coordinates)
+        ]
+
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching the image: {e}")
+    except IOError as e:
+        print(f"Error processing the image file: {e}")
+    except Exception as e:
+        print(f"An unexpected error occurred: {e}")
 
 
-# basic tkinter windows
+# %%basic tkinter windows
 def file_browse(multiple: bool = False, file_types: list = []) -> str | tuple:
     file_types.append(("All Files", "*"))
     root = tk.Tk()
@@ -103,7 +152,7 @@ def print_log(msg, log=logging.info):
     log(msg)
 
 
-# %% system info for logs
+# %% system info
 def print_system_info(p=print_log):
     p("=" * 40 + " SYS " + "=" * 40)
     p(f"File/Script: {__file__}")

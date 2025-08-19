@@ -8,6 +8,7 @@ dependencies = [
     "darkdetect>=0.8.0",
     "matplotlib>=3.10.3",
     "psutil>=7.0.0",
+    "requests>=2.32.5",
     "win11toast>=0.35",
     "winup>=2.5.2",
 ]

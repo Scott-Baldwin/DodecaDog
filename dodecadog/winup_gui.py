@@ -93,29 +93,27 @@ def update_text_area(state):
     )
 
 
-def get_image_coords():
-    # Create a sample image (a simple 2D array)
-    grid_size = 10
-    image = image = [
-        [random.random() for _ in range(grid_size)] for _ in range(grid_size)
-    ]
+# def get_image_coords():
+#     # Create a sample image (a simple 2D array)
+#     grid_size = 10
+#     image = [[random.random() for _ in range(grid_size)] for _ in range(grid_size)]
 
-    # Display the image
-    plt.imshow(image, cmap="terrain")
-    plt.title("Click on the image")
+#     # Display the image
+#     plt.imshow(image, cmap="terrain")
+#     plt.title("Click on the image")
 
-    # Use ginput to get any number of points
-    print("Left-Click on the image to add a point")
-    print("Right-Click to undo the last point")
-    print("Middle-Click to finish")
-    coordinates = plt.ginput(n=-1, timeout=0)
-    plt.close()
+#     # Use ginput to get any number of points
+#     print("Left-Click on the image to add a point")
+#     print("Right-Click to undo the last point")
+#     print("Middle-Click to finish")
+#     coordinates = plt.ginput(n=-1, timeout=0)
+#     plt.close()
 
-    # print output
-    [
-        print(f"Point {index}: ({value[0]:.2f}, {value[1]:.2f})")
-        for index, value in enumerate(coordinates)
-    ]
+#     # print output
+#     [
+#         print(f"Point {index}: ({value[0]:.2f}, {value[1]:.2f})")
+#         for index, value in enumerate(coordinates)
+#     ]
 
 
 # --- Main Application ---
@@ -141,9 +139,9 @@ def run():
     text_area_state = state.create("text_area", {})
     text = add_text_area()
     text_area_state.bind_to(
-        text,
-        "text",
-        lambda d: "\n".join([f"{key}: {value}" for key, value in d.items()]),
+        widget=text,
+        property_name="text",
+        formatter=lambda d: "\n".join([f"{key}: {value}" for key, value in d.items()]),
     )
 
     layout = ui.Column(
@@ -151,12 +149,13 @@ def run():
         children=[
             add_file_browse(),
             plot_controls,
+            ui.Button("Get Image Coords", on_click=utils.get_image_coords),
             ui.Button("Push Notification", on_click=note.push),
             text,
             ui.Button(
                 "Update Text", on_click=lambda: update_text_area(text_area_state)
             ),
-            ui.Button("TEST", on_click=get_image_coords),
+            # ui.Button("TEST", on_click=get_image_coords),
         ],
     )
 
