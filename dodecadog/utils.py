@@ -58,10 +58,15 @@ class progress_notification:
             self.is_running = False
 
 
-def get_image_coords():
+def get_image_coords(theme="default"):
+    theme = AssetManager.mpl_style if theme == "custom" else theme
+    plt.style.use(theme)
     # Replace this URL with the direct link to the image you want to download
     # image_url = "https://imgs.xkcd.com/comics/curve_fitting.png"
     image_url = "https://imgs.xkcd.com/comics/escalators.png"
+    # image_url = "https://imgs.xkcd.com/comics/y_axis.png"
+    # image_url = "https://imgs.xkcd.com/comics/colds.png"
+    # image_url = "https://imgs.xkcd.com/comics/scientific_paper_graph_quality.png"
 
     try:
         # Step 1: Download the image data from the URL
