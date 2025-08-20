@@ -59,7 +59,7 @@ def add_plot_controls(plot_theme_state):
     def on_selection_change(selected_text):
         plot_theme_state.set(selected_text)
 
-    items = ["custom", "default"]
+    items = ["default", "custom"]
     [items.append(s) for s in plt.style.available]
     combo = ui.ComboBox(items=items, on_change=on_selection_change)
 
@@ -108,9 +108,7 @@ def run():
         style.themes.set_theme("dark")
 
     # set up states
-    plot_theme_state = state.create("plot_theme", "custom")
-    plot_controls = add_plot_controls(plot_theme_state)
-    plot_theme_state.bind_to(plot_controls, "text", lambda t: t)
+    plot_theme_state = state.create("plot_theme", "default")
 
     text_area_state = state.create("text_area", {})
     text = add_text_area()
@@ -124,7 +122,7 @@ def run():
         props={"spacing": 10, "margin": "20px"},
         children=[
             add_file_browse(),
-            plot_controls,
+            add_plot_controls(plot_theme_state),
             ui.Button(
                 "Get Image Coords",
                 on_click=lambda: utils.get_image_coords(plot_theme_state.get()),
