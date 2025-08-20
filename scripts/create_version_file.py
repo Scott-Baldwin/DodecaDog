@@ -13,7 +13,7 @@ sys.path.append("./dodecadog")
 from core import VERSION, NAME
 
 # TODO: auto-increment build number
-BUILD = ".9"
+BUILD = ".12"
 
 # %% build path for version info file output
 folder = os.path.dirname(os.path.abspath(__file__))

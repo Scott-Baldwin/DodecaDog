@@ -9,7 +9,10 @@
         "mplstyle",
         "noconfirm",
         "Octo",
+        "onedir",
         "onefile",
+        "pady",
+        "scriptpath",
         "winup"
     ],
     // python formatting & type checking

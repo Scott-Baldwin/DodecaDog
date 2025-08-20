@@ -273,12 +273,10 @@ name = "dodecadog"
 version = "0.1.1"
 source = { virtual = "." }
 dependencies = [
-    { name = "darkdetect" },
     { name = "matplotlib" },
     { name = "psutil" },
     { name = "requests" },
     { name = "win11toast" },
-    { name = "winup" },
 ]
 
 [package.dev-dependencies]
@@ -293,15 +291,17 @@ dpg = [
     { name = "dearpygui" },
     { name = "pandas" },
 ]
+winup = [
+    { name = "darkdetect" },
+    { name = "winup" },
+]
 
 [package.metadata]
 requires-dist = [
-    { name = "darkdetect", specifier = ">=0.8.0" },
     { name = "matplotlib", specifier = ">=3.10.3" },
     { name = "psutil", specifier = ">=7.0.0" },
     { name = "requests", specifier = ">=2.32.5" },
     { name = "win11toast", specifier = ">=0.35" },
-    { name = "winup", specifier = ">=2.5.2" },
 ]
 
 [package.metadata.requires-dev]
@@ -313,6 +313,10 @@ dev = [{ name = "ipykernel", specifier = ">=6.29.5" }]
 dpg = [
     { name = "dearpygui", specifier = ">=2.0.0" },
     { name = "pandas", specifier = ">=2.3.1" },
+]
+winup = [
+    { name = "darkdetect", specifier = ">=0.8.0" },
+    { name = "winup", specifier = ">=2.5.2" },
 ]
 
 [[package]]

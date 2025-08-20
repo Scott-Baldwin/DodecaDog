@@ -9,7 +9,7 @@ Set-Location $dir2
 $versionScript = ".\scripts\create_version_file.py"
 & uv run $versionScript
 
-& uv sync --no-dev --group build
+& uv sync --all-groups --no-dev
 
 # Activate the virtual environment
 $venvPath = ".venv"
@@ -18,7 +18,7 @@ $venvPath = ".venv"
 # Run the pyinstaller command
 $launcherFile = ".\dodecadog\main.py"
 $pyInstallerExecutable = "pyinstaller"
-$appName = "template_app"
+$appName = "DodecaDog"
 $versionFile = ".\scripts\app_version_info.txt"
 $iconFile = ".\dodecadog\assets\icons\dog.ico"
 # $addIcon = ".\src\data\icon.ico;.\data" # use this to add specific file
@@ -32,7 +32,8 @@ $addDataFolder = ".\dodecadog\assets;.\assets" # use this to add entire folder
     -n $appName `
     -i $iconFile `
     --noconfirm `
-    --onefile
+    --onedir
+# --onefile
 
 # # update requirements file
 # & pip freeze > requirements.txt

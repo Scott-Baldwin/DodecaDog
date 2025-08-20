@@ -1,5 +1,5 @@
 # constants
-NAME = "Template App"
+NAME = "DodecaDog"
 VERSION = "0.1.2"
 
 

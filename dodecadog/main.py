@@ -1,13 +1,28 @@
-# import dpg_gui
-import winup_gui
-from utils import AssetManager
+# main script to use as the 'launcher' for app options
 
-# import matplotlib as mpl.style
+from utils import select_gui
 
-# data_path = AssetManager.mpl_style
-# cyberpunk_stylesheets = mpl.style.core.read_style_directory(data_path)
-# mpl.style.update_nested_dict(mpl.style.library, cyberpunk_stylesheets)
+
+def main():
+    gui = select_gui()
+
+    if gui == "WinUp":
+        import winup_gui
+
+        winup_gui.main()
+
+    elif gui == "DearPyGUI":
+        import dpg_gui
+
+        dpg_gui.run()
+
+    else:
+        print(f"Invalid Selection: {gui}")
+
 
 if __name__ == "__main__":
-    winup_gui.main()
-    # dpg_gui.run()
+    try:
+        main()
+    except ModuleNotFoundError as e:
+        print(f"An error occurred: {e}")
+        print("Try running 'uv sync --all-groups' to install all dependencies")

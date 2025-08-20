@@ -5,13 +5,14 @@ from tkinter import filedialog, messagebox
 from time import sleep
 import threading
 import sys, platform, logging
+from PIL import Image
+from io import BytesIO
 
 # 3rd party
 from win11toast import notify, update_progress
 import psutil
 import requests
-from PIL import Image
-from io import BytesIO
+
 import matplotlib.pyplot as plt
 
 # custom
@@ -101,7 +102,42 @@ def get_image_coords():
         print(f"An unexpected error occurred: {e}")
 
 
-# %%basic tkinter windows
+# %%  basic tkinter windows
+
+
+def select_gui() -> str:
+    result = {"choice": ""}  # container for result
+
+    def on_click(choice):
+        result["choice"] = choice
+        root.destroy()  # close the window
+
+    # Create window
+    root = tk.Tk()
+    root.title("DodecaDog")
+    root.iconbitmap(AssetManager.app_icon)
+
+    # Add text label
+    label = tk.Label(root, text="Select a GUI option:")
+    label.pack(pady=5)
+
+    # Frame to hold buttons
+    button_frame = tk.Frame(root)
+    button_frame.pack(expand=True)
+
+    # Buttons
+    btn1 = tk.Button(button_frame, text="WinUp", command=lambda: on_click("WinUp"))
+    btn2 = tk.Button(
+        button_frame, text="DearPyGUI", command=lambda: on_click("DearPyGUI")
+    )
+
+    btn1.pack(pady=5)
+    btn2.pack(pady=5)
+
+    root.mainloop()
+    return result["choice"]
+
+
 def file_browse(multiple: bool = False, file_types: list = []) -> str | tuple:
     file_types.append(("All Files", "*"))
     root = tk.Tk()
