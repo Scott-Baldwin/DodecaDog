@@ -25,7 +25,7 @@ class AssetManager:
     app_icon = join(app_path, "assets", "icons", "dog.ico")
     file_icon = join(app_path, "assets", "icons", "file.ico")
     font_folder = join(app_path, "assets", "fonts")
-    mpl_style = join(app_path, "assets", "cyberpunk.mplstyle")
+    mpl_style = join(app_path, "assets", "custom_plot_themes", "cyberpunk.mplstyle")
 
 
 class progress_notification:
@@ -147,7 +147,7 @@ def file_browse(multiple: bool = False, file_types: list = []) -> str | tuple:
     file_types.append(("All Files", "*"))
     root = tk.Tk()
     root.withdraw()
-    root.iconbitmap(AssetManager.file_icon)
+    root.iconbitmap(AssetManager.app_icon)
     if multiple:
         file_path = filedialog.askopenfilenames(
             parent=root,
@@ -167,7 +167,7 @@ def file_browse(multiple: bool = False, file_types: list = []) -> str | tuple:
 def folder_browse():
     root = tk.Tk()
     root.withdraw()
-    root.iconbitmap(AssetManager.file_icon)
+    root.iconbitmap(AssetManager.app_icon)
     folder_path = filedialog.askdirectory(
         parent=root,
         title="Select folder",

@@ -55,6 +55,25 @@ def add_file_browse():
     return ui.Row(props={"spacing": 10}, children=[btn, label])
 
 
+def add_folder_browse():
+    is_running = state.create("is_running", False)
+
+    def get_folder():
+        if not is_running.get():
+            is_running.set(True)
+            path = utils.folder_browse()
+            if path != "":
+                btn.setToolTip(path)
+            is_running.set(False)
+        else:
+            print("File dialog window already open")
+
+    label = ui.Label("Select a Folder")
+    btn = ui.Button("...", on_click=get_folder)
+
+    return ui.Row(props={"spacing": 10}, children=[btn, label])
+
+
 def add_plot_controls(plot_theme_state):
     def on_selection_change(selected_text):
         plot_theme_state.set(selected_text)
@@ -121,7 +140,12 @@ def run():
     layout = ui.Column(
         props={"spacing": 10, "margin": "20px"},
         children=[
-            add_file_browse(),
+            ui.Column(
+                children=[
+                    add_file_browse(),
+                    add_folder_browse(),
+                ]
+            ),
             add_plot_controls(plot_theme_state),
             ui.Button(
                 "Get Image Coords",
