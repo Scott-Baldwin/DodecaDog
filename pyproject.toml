@@ -1,21 +1,29 @@
-[tool.poetry]
+[project]
 name = "dodecadog"
-version = "0.1.0"
-description = ""
-authors = ["Scott-Baldwin <superscottyb@gmail.com>"]
+version = "0.1.1"
+description = "Add your description here"
 readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.10.3",
+    "psutil>=7.0.0",
+    "requests>=2.32.5",
+    "win11toast>=0.35",
+]
 
-[tool.poetry.dependencies]
-python = ">=3.11,<3.13"
-dearpygui = "^1.11.1"
-
-[tool.poetry.group.dev.dependencies]
-black = "^24.4.2"
-
-[tool.poetry.group.build.dependencies]
-pyinstaller = "^6.9.0"
-pyinstaller-versionfile = "^2.1.1"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+[dependency-groups]
+winup= [
+    "winup>=2.5.2",
+    "darkdetect>=0.8.0",
+]
+dpg = [
+    "dearpygui>=2.0.0",
+    "pandas>=2.3.1",
+]
+build = [
+    "pyinstaller>=6.14.2",
+    "pyinstaller-versionfile>=3.0.1",
+]
+dev = [
+    "ipykernel>=6.29.5",
+]

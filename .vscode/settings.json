@@ -1,16 +1,25 @@
 {
     // code spell checker 
     "cSpell.words": [
+        "darkdetect",
         "Dodeca",
         "dodecadog",
-        "Octo"
+        "fignum",
+        "mplcyberpunk",
+        "mplstyle",
+        "noconfirm",
+        "Octo",
+        "onedir",
+        "onefile",
+        "pady",
+        "scriptpath",
+        "winup"
     ],
     // python formatting & type checking
     "[python]": {
         "editor.formatOnSave": true,
+        "editor.defaultFormatter": "charliermarsh.ruff"
     },
-    "python.formatting.provider": "black",
-    "python.formatting.blackPath": "/.venv/Lib/site-packages/black",
     "python.analysis.typeCheckingMode": "basic",
     "python.analysis.extraPaths": [
         "./dodecadog"

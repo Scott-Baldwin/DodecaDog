@@ -1,5 +1,6 @@
-NAME = "Template App"
-VERSION = "0.1.1"
+# constants
+NAME = "DodecaDog"
+VERSION = "0.1.2"
 
 
 class AppClass:
